@@ -1,0 +1,84 @@
+@startuml
+
+class User {
+- String username
+- String password
+- int age
+- List<WorkoutWeek> weeks
+}
+
+class WorkoutSchedule {
+- int id
+- User user
+- int trainingDays
+- int startWeekNum
+- int endWeekNum
+- List<WorkoutDay> workoutDays
+- WeekStatus status
+- String comment
+}
+
+class WorkoutDay {
+- int id
+- WorkoutSchedule schedule
+- Map<Workout, Integer> workouts
+- String comment
+}
+
+class Workout {
+- long id
+- Exercise exercise
+- WorkoutSet workoutSet
+- String comment
+- WorkoutStatus status
+}
+
+class Exercise {
+- long id
+- String name
+- MuscleGroup muscleGroupPrimary
+- MuscleGroup muscleGroupSecondary
+- boolean favourite
+}
+
+abstract class WorkoutSet {
+- int sets
+- int reps
+- double weight
+}
+
+package enum {
+enum MuscleGroup {
+    BICEPS,
+    TRAPS,
+    BACK,
+    ABS,
+    CALVES,
+    FOREARMS,
+    GLUTES,
+    HAMSTRINGS,
+    LATS,
+    SHOULDERS,
+    TRICEPS,
+    QUADS,
+    CHEST,
+    OBLIQUES,
+    HANDS,
+    FEET,
+    NECK
+}
+
+enum WorkoutStatus {
+BAD, OK, GOOD, PERFECT
+}
+}
+
+
+User "1" o-- "1..*" WorkoutSchedule
+WorkoutSchedule "1" o-- "1..*" WorkoutDay
+WorkoutDay "1" o-r- "1..*" Workout
+Workout -- Exercise
+Workout -- WorkoutSet
+
+
+@enduml
